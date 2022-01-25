@@ -1,5 +1,4 @@
-﻿/// <reference path="lib/storage.ts" />
-
+/// <reference path="lib/storage.ts" />
 var settings = CreateSettings({
     onOpen: 'default',
     onClose: 'lastfocused',
@@ -8,5 +7,6 @@ var settings = CreateSettings({
     exceptShift: false,
     openInOrder: false,
     preventNewWindow: true,
-    preventWindowPopups: false
+    preventWindowPopups: false,
 });
+//# sourceMappingURL=settings.js.map

@@ -82,7 +82,7 @@ class OptionsPage {
 	/** Gets whether an element is a multi-select input */
 	static isMultiSelect(element: HTMLElement) {
 		if (element instanceof HTMLSelectElement) {
-			return (OptionsPage.MultiSelectTypes.indexOf((<HTMLInputElement>element).type.toLowerCase()) >= 0);
+			return (OptionsPage.MultiSelectTypes.indexOf((<HTMLInputElement><unknown>element).type.toLowerCase()) >= 0);
 		} else {
 			return false;
 		}
@@ -666,10 +666,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
 		if (typeof window[names[i]] !== 'undefined') {
 			var settings = window[names[i]];
-			if (settings instanceof SettingStorageClass) {
+			//if (settings instanceof SettingStorageClass) {
 				window.optionsPage = new OptionsPage(settings);
 				break;
-			}
+			//}
 		}
 	}
 

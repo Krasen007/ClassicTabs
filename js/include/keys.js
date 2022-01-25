@@ -1,21 +1,20 @@
-﻿/// <reference path="../lib/chrome.d.ts" />
+/// <reference path="../lib/chrome.d.ts" />
 var SHIFT = 16;
 var CTRL = 17;
-
-window.addEventListener('keydown', function (e) {
+window.addEventListener('keydown', (e) => {
     if (e.which === SHIFT || e.which === CTRL) {
         chrome.runtime.sendMessage({
             key: e.which,
-            action: 'down'
+            action: 'down',
         });
     }
 });
-
-window.addEventListener('keyup', function (e) {
+window.addEventListener('keyup', (e) => {
     if (e.which === SHIFT || e.which === CTRL) {
         chrome.runtime.sendMessage({
             key: e.which,
-            action: 'up'
+            action: 'up',
         });
     }
 });
+//# sourceMappingURL=keys.js.map
