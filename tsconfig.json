@@ -1,15 +1,31 @@
 {
-    "extends": "./node_modules/@spadin/tsconfig/base",
     "compilerOptions": {
+        "target": "es2017",
         "module": "commonjs",
+        "moduleResolution": "node",
         "declaration": false,
         "jsx": "react",
+        "rootDir": "./app/scripts",
         "outDir": "./dist/tsc",
         "sourceMap": true,
+        "incremental": true,
+        "strict": true,
+        "esModuleInterop": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
         "lib": [
             "dom",
             "dom.iterable",
             "es7"
         ]
-    }
+    },
+    "include": [
+        "./app/scripts/**/*"
+    ]
 }

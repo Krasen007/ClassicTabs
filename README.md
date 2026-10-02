@@ -14,6 +14,22 @@ First, install all dependencies by running this command in a terminal window:
 
 	$ npm install
 
+### Node.js version
+
+This project builds with webpack 4, which uses an MD4 hash that OpenSSL 3 (bundled with Node.js 17 and newer) refuses by default. On a modern Node.js you will see this error partway through a build:
+
+	Error: error:0308010C:digital envelope routines::unsupported
+
+If you do, either set the legacy provider for the current session:
+
+	$ set NODE_OPTIONS=--openssl-legacy-provider     (Windows Command Prompt)
+
+or set it permanently for your user account:
+
+	$ setx NODE_OPTIONS "--openssl-legacy-provider"
+
+Note that Node.js 16 and older do not need this workaround.
+
 ## Development Build
 
 To build the extension in development mode with hot-reloading, run the appropriate command for your browser in a terminal window (Command Prompt on Windows):
@@ -64,6 +80,25 @@ To build an extension package, run the appropriate command for your browser in a
 If you are using Visual Studio Code, you can also press Ctrl+P and type `task build`, then select your browser.
 
 The extension package will be written to `packages/`.
+
+## Dependencies
+
+Most of the build tooling comes from [`webextension-toolbox`](https://github.com/HaNdTriX/webextension-toolbox) together with [`@spadin/webextension-build-utils`](https://github.com/ChaosinaCan/webextension-build-utils), which is configured in `webextension-toolbox-config.js`. Because those packages load several webpack plugins through `require()` without declaring them as real dependencies, the following are listed explicitly in `package.json` even though nothing imports them directly:
+
+- `duplicate-package-checker-webpack-plugin`
+- `tslint-loader`
+- `webextension-polyfill` (required by `shim/webextension-polyfill.js`)
+- `zip-webpack-plugin`
+
+`@spadin/tsconfig` is also kept even though `tsconfig.json` no longer extends it, because `tslint.json` still extends its shared lint rules.
+
+A few other dependencies are pinned or held back on purpose, so `npm outdated` will keep reporting them:
+
+- **`@types/chrome`** is pinned to `0.0.86`. Newer versions of this package are a full rewrite of the API surface, not a compatible continuation.
+- **`webextension-polyfill-ts`** is unmaintained. Its replacement is `webextension-polyfill` plus separate type definitions, which is a code change rather than a version bump.
+- **webpack 4 and its loaders** (`ts-loader`, `copy-webpack-plugin`, `file-loader`, and so on) are held at their current majors. `webextension-toolbox` 4 assumes webpack 5, so moving to webpack 5 means upgrading the toolbox and rewriting the webpack config together. Treat that as a single dedicated change, not a routine dependency bump.
+
+`npm outdated` also reports vulnerabilities from the older build chain. Those are inherited from webpack 4 and are resolved by the webpack 5 upgrade described above rather than by `npm audit fix`.
 
 ## Localization
 
