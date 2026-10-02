@@ -25,6 +25,16 @@ module.exports = {
 
         useSourceMap(config, dev);
 
+        // Keep source maps in development builds so stack traces in the
+        // browser's debugger point back at the original TypeScript. In
+        // production builds they roughly triple the size of the package
+        // (~650 KB down to ~200 KB per browser) and embed the full
+        // unminified source of every dependency, which nobody reading a
+        // released build can make use of anyway.
+        if (!dev) {
+            config.devtool = false;
+        }
+
         useTypescript(config);
 
         useImages(config, {
